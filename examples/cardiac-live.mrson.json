@@ -52,25 +52,54 @@
     "dtype": "<i2",
     "bytes": "6492653"
    },
-   "source": {
-    "mrmlClass": "vtkMRMLScalarVolumeNode"
-   },
    "refs": {
-    "transferFunction": [
-     "vtkMRMLVolumePropertyNode1"
+    "display": [
+     "vtkMRMLScalarVolumeDisplayNode1",
+     "vtkMRMLGPURayCastVolumeRenderingDisplayNode1"
     ]
    },
-   "attrs": {},
-   "blobs": {},
+   "source": {
+    "mrmlClass": "vtkMRMLScalarVolumeNode"
+   }
+  },
+  "vtkMRMLScalarVolumeDisplayNode1": {
+   "id": "vtkMRMLScalarVolumeDisplayNode1",
+   "name": "VolumeDisplay",
+   "frame": "RAS",
+   "visible": true,
+   "viewRefs": [],
+   "refs": {},
+   "source": {
+    "mrmlClass": "vtkMRMLScalarVolumeDisplayNode"
+   },
+   "type": "scalarVolumeDisplay",
+   "window": 151.0,
+   "level": 75.5,
    "color": [
     0.9,
     0.9,
     0.3,
     1.0
    ],
-   "window": 151.0,
-   "level": 75.5,
-   "visible": true
+   "interpolate": true
+  },
+  "vtkMRMLGPURayCastVolumeRenderingDisplayNode1": {
+   "id": "vtkMRMLGPURayCastVolumeRenderingDisplayNode1",
+   "name": "VolumeRendering",
+   "frame": "RAS",
+   "visible": true,
+   "viewRefs": [
+    "vtkMRMLViewNode1"
+   ],
+   "refs": {
+    "transferFunction": [
+     "vtkMRMLVolumePropertyNode1"
+    ]
+   },
+   "source": {
+    "mrmlClass": "vtkMRMLGPURayCastVolumeRenderingDisplayNode"
+   },
+   "type": "volumeRenderingDisplay"
   },
   "vtkMRMLVolumePropertyNode1": {
    "type": "transferFunction",
@@ -237,20 +266,134 @@
     "dtype": "<i2",
     "bytes": "62296069"
    },
+   "refs": {
+    "display": [
+     "vtkMRMLScalarVolumeDisplayNode2"
+    ]
+   },
    "source": {
     "mrmlClass": "vtkMRMLScalarVolumeNode"
-   },
+   }
+  },
+  "vtkMRMLScalarVolumeDisplayNode2": {
+   "id": "vtkMRMLScalarVolumeDisplayNode2",
+   "name": "VolumeDisplay",
+   "frame": "RAS",
+   "visible": true,
+   "viewRefs": [],
    "refs": {},
-   "attrs": {},
-   "blobs": {},
+   "source": {
+    "mrmlClass": "vtkMRMLScalarVolumeDisplayNode"
+   },
+   "type": "scalarVolumeDisplay",
+   "window": 2371.0,
+   "level": 161.5,
    "color": [
     0.9,
     0.9,
     0.3,
     1.0
    ],
-   "window": 2371.0,
-   "level": 161.5
+   "interpolate": true
+  },
+  "vtkMRMLModelNode1": {
+   "type": "mesh",
+   "id": "vtkMRMLModelNode1",
+   "name": "Red Volume Slice",
+   "frame": "RAS",
+   "refs": {
+    "display": [
+     "vtkMRMLSliceDisplayNode1"
+    ]
+   },
+   "source": {
+    "mrmlClass": "vtkMRMLModelNode"
+   }
+  },
+  "vtkMRMLSliceDisplayNode1": {
+   "id": "vtkMRMLSliceDisplayNode1",
+   "name": "Red Display",
+   "frame": "RAS",
+   "visible": false,
+   "viewRefs": [],
+   "refs": {},
+   "source": {
+    "mrmlClass": "vtkMRMLSliceDisplayNode"
+   },
+   "type": "modelDisplay",
+   "color": [
+    0.9529411764705882,
+    0.2901960784313726,
+    0.2,
+    1.0
+   ],
+   "opacity": 1.0
+  },
+  "vtkMRMLModelNode2": {
+   "type": "mesh",
+   "id": "vtkMRMLModelNode2",
+   "name": "Green Volume Slice",
+   "frame": "RAS",
+   "refs": {
+    "display": [
+     "vtkMRMLSliceDisplayNode2"
+    ]
+   },
+   "source": {
+    "mrmlClass": "vtkMRMLModelNode"
+   }
+  },
+  "vtkMRMLSliceDisplayNode2": {
+   "id": "vtkMRMLSliceDisplayNode2",
+   "name": "Green Display",
+   "frame": "RAS",
+   "visible": false,
+   "viewRefs": [],
+   "refs": {},
+   "source": {
+    "mrmlClass": "vtkMRMLSliceDisplayNode"
+   },
+   "type": "modelDisplay",
+   "color": [
+    0.43137254901960786,
+    0.6901960784313725,
+    0.29411764705882354,
+    1.0
+   ],
+   "opacity": 1.0
+  },
+  "vtkMRMLModelNode3": {
+   "type": "mesh",
+   "id": "vtkMRMLModelNode3",
+   "name": "Yellow Volume Slice",
+   "frame": "RAS",
+   "refs": {
+    "display": [
+     "vtkMRMLSliceDisplayNode3"
+    ]
+   },
+   "source": {
+    "mrmlClass": "vtkMRMLModelNode"
+   }
+  },
+  "vtkMRMLSliceDisplayNode3": {
+   "id": "vtkMRMLSliceDisplayNode3",
+   "name": "Yellow Display",
+   "frame": "RAS",
+   "visible": false,
+   "viewRefs": [],
+   "refs": {},
+   "source": {
+    "mrmlClass": "vtkMRMLSliceDisplayNode"
+   },
+   "type": "modelDisplay",
+   "color": [
+    0.9294117647058824,
+    0.8352941176470589,
+    0.2980392156862745,
+    1.0
+   ],
+   "opacity": 1.0
   },
   "vtkMRMLMarkupsFiducialNode1": {
    "type": "markup",
@@ -258,12 +401,6 @@
    "name": "LiveStoryPoints",
    "frame": "RAS",
    "markupType": "fiducial",
-   "color": [
-    1.0,
-    0.5000076295109483,
-    0.5000076295109483,
-    1.0
-   ],
    "controlPoints": [
     {
      "label": "nasion-ish",
@@ -293,9 +430,33 @@
      "selected": true
     }
    ],
+   "refs": {
+    "display": [
+     "vtkMRMLMarkupsFiducialDisplayNode1"
+    ]
+   },
    "source": {
     "mrmlClass": "vtkMRMLMarkupsFiducialNode"
    }
+  },
+  "vtkMRMLMarkupsFiducialDisplayNode1": {
+   "id": "vtkMRMLMarkupsFiducialDisplayNode1",
+   "name": "MarkupsFiducialDisplay",
+   "frame": "RAS",
+   "visible": true,
+   "viewRefs": [],
+   "refs": {},
+   "source": {
+    "mrmlClass": "vtkMRMLMarkupsFiducialDisplayNode"
+   },
+   "type": "modelDisplay",
+   "color": [
+    0.4,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "opacity": 1.0
   },
   "vtkMRMLCameraNode1": {
    "type": "camera",

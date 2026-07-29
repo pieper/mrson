@@ -90,11 +90,7 @@
       "abstract": true,
       "type": "object",
       "$extends": "#/definitions/Node",
-      "properties": {
-        "visible": { "type": "boolean" },
-        "color": { "type": { "$ref": "#/definitions/RGBA" } },
-        "opacity": { "type": "double" }
-      }
+      "comment": "A node shown via one or more SEPARATE `display` nodes, referenced through refs.display. Display properties (color, window/level, transfer function, representation) live on the display nodes, NOT here. MRML keeps display independent on purpose: one displayable node may have several display nodes, each optionally scoped to specific views (a 'display scenario' — e.g. a different transfer function for the same volume in different views). See DisplayNode."
     },
 
     "ImageNode": {
@@ -105,8 +101,6 @@
         "ijkToRAS": { "type": { "$ref": "#/definitions/Matrix16" } },
         "voxelType": { "type": "string" },
         "comps": { "type": "int32" },
-        "window": { "type": "double" },
-        "level": { "type": "double" },
         "zarr": { "type": { "$ref": "#/definitions/ZarrDesc" } }
       },
       "required": ["dims", "ijkToRAS"]
@@ -115,10 +109,7 @@
     "MeshNode": {
       "type": "object",
       "$extends": "#/definitions/DisplayableNode",
-      "properties": {
-        "color": { "type": { "$ref": "#/definitions/RGBA" } },
-        "opacity": { "type": "double" }
-      }
+      "comment": "Mesh geometry lives in refs'd blobs; display via refs.display."
     },
 
     "Segment": {
@@ -230,6 +221,60 @@
       }
     },
 
+    "DisplayNode": {
+      "abstract": true,
+      "type": "object",
+      "$extends": "#/definitions/Node",
+      "comment": "Display of a displayable node, kept independent on purpose. `viewRefs` = the view ids this display applies to; absent or empty means all views. A displayable node references one or more display nodes via refs.display, so the same object can be shown differently (e.g. a different transfer function) per view.",
+      "properties": {
+        "viewRefs": { "type": "array", "items": { "type": "string" } },
+        "visible": { "type": "boolean" }
+      }
+    },
+
+    "ScalarVolumeDisplayNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayNode",
+      "comment": "2D (slice) display of a scalar volume. refs.colorNode -> a color LUT if any.",
+      "properties": {
+        "window": { "type": "double" },
+        "level": { "type": "double" },
+        "color": { "type": { "$ref": "#/definitions/RGBA" } },
+        "interpolate": { "type": "boolean" }
+      }
+    },
+
+    "VolumeRenderingDisplayNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayNode",
+      "comment": "Volume-rendering display. refs.transferFunction -> the transferFunction node used in these views.",
+      "properties": {
+        "technique": { "type": "string" }
+      }
+    },
+
+    "ModelDisplayNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayNode",
+      "properties": {
+        "color": { "type": { "$ref": "#/definitions/RGBA" } },
+        "opacity": { "type": "double" },
+        "representation": { "type": "string", "enum": ["points", "wireframe", "surface"] },
+        "edgeVisibility": { "type": "boolean" }
+      }
+    },
+
+    "MarkupDisplayNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayNode",
+      "properties": {
+        "color": { "type": { "$ref": "#/definitions/RGBA" } },
+        "selectedColor": { "type": { "$ref": "#/definitions/RGBA" } },
+        "glyphScale": { "type": "double" },
+        "textScale": { "type": "double" }
+      }
+    },
+
     "AnyNode": {
       "type": "choice",
       "$extends": "#/definitions/Node",
@@ -242,7 +287,11 @@
         "transform":        { "type": { "$ref": "#/definitions/TransformNode" } },
         "camera":           { "type": { "$ref": "#/definitions/CameraNode" } },
         "view":             { "type": { "$ref": "#/definitions/ViewNode" } },
-        "transferFunction": { "type": { "$ref": "#/definitions/TransferFunctionNode" } }
+        "transferFunction": { "type": { "$ref": "#/definitions/TransferFunctionNode" } },
+        "scalarVolumeDisplay":    { "type": { "$ref": "#/definitions/ScalarVolumeDisplayNode" } },
+        "volumeRenderingDisplay": { "type": { "$ref": "#/definitions/VolumeRenderingDisplayNode" } },
+        "modelDisplay":           { "type": { "$ref": "#/definitions/ModelDisplayNode" } },
+        "markupDisplay":          { "type": { "$ref": "#/definitions/MarkupDisplayNode" } }
       }
     },
 

@@ -64,9 +64,7 @@ export interface Node {
 }
 
 export interface DisplayableNode extends Node {
-  visible?: boolean;
-  color?: RGBA;
-  opacity?: number;
+
 }
 
 export interface ImageNode extends DisplayableNode {
@@ -74,14 +72,11 @@ export interface ImageNode extends DisplayableNode {
   ijkToRAS: Matrix16;
   voxelType?: string;
   comps?: number;
-  window?: number;
-  level?: number;
   zarr?: ZarrDesc;
 }
 
 export interface MeshNode extends DisplayableNode {
-  color?: RGBA;
-  opacity?: number;
+
 }
 
 export interface Segment {
@@ -148,6 +143,36 @@ export interface TransferFunctionNode extends Node {
   shade?: boolean;
 }
 
+export interface DisplayNode extends Node {
+  viewRefs?: string[];
+  visible?: boolean;
+}
+
+export interface ScalarVolumeDisplayNode extends DisplayNode {
+  window?: number;
+  level?: number;
+  color?: RGBA;
+  interpolate?: boolean;
+}
+
+export interface VolumeRenderingDisplayNode extends DisplayNode {
+  technique?: string;
+}
+
+export interface ModelDisplayNode extends DisplayNode {
+  color?: RGBA;
+  opacity?: number;
+  representation?: "points" | "wireframe" | "surface";
+  edgeVisibility?: boolean;
+}
+
+export interface MarkupDisplayNode extends DisplayNode {
+  color?: RGBA;
+  selectedColor?: RGBA;
+  glyphScale?: number;
+  textScale?: number;
+}
+
 export type AnyNode =
   | ({ type: "image" } & ImageNode)
   | ({ type: "mesh" } & MeshNode)
@@ -156,7 +181,11 @@ export type AnyNode =
   | ({ type: "transform" } & TransformNode)
   | ({ type: "camera" } & CameraNode)
   | ({ type: "view" } & ViewNode)
-  | ({ type: "transferFunction" } & TransferFunctionNode);
+  | ({ type: "transferFunction" } & TransferFunctionNode)
+  | ({ type: "scalarVolumeDisplay" } & ScalarVolumeDisplayNode)
+  | ({ type: "volumeRenderingDisplay" } & VolumeRenderingDisplayNode)
+  | ({ type: "modelDisplay" } & ModelDisplayNode)
+  | ({ type: "markupDisplay" } & MarkupDisplayNode);
 
 export interface Scene {
   mrson: number;
