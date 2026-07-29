@@ -17,13 +17,14 @@ export interface BlobRef {
 }
 
 export interface ZarrDesc {
-  dir: string;
-  dataset: string;
   shape: number[];
   chunks: number[];
   chunkGrid: number[];
   dtype: string;
   bytes?: string;
+  chunkHashes?: Record<string, string>;
+  dir?: string;
+  dataset?: string;
 }
 
 export type Refs = Record<string, string[]>;

@@ -23,17 +23,18 @@
 
     "ZarrDesc": {
       "type": "object",
-      "comment": "Chunked array descriptor for a volume blob (render/zarr.ts). Chunks live at <blobBase>/<dir>/<dataset>/<k>.<j>.<i>.",
+      "comment": "Chunked array descriptor for a volume blob (render/zarr.ts). Chunks are content-addressed: `chunkHashes` maps grid coords \"k.j.i\" -> a content hash, and each chunk is fetched flat at <blobBase>/<hash>. (Legacy positional dir/dataset layout is still accepted by the loader.)",
       "properties": {
-        "dir": { "type": "string" },
-        "dataset": { "type": "string" },
         "shape": { "type": "array", "items": { "type": "int32" } },
         "chunks": { "type": "array", "items": { "type": "int32" } },
         "chunkGrid": { "type": "array", "items": { "type": "int32" } },
         "dtype": { "type": "string" },
-        "bytes": { "type": "string" }
+        "bytes": { "type": "string" },
+        "chunkHashes": { "type": "map", "values": { "type": "string" } },
+        "dir": { "type": "string" },
+        "dataset": { "type": "string" }
       },
-      "required": ["dir", "dataset", "shape", "chunks", "chunkGrid", "dtype"]
+      "required": ["shape", "chunks", "chunkGrid", "dtype"]
     },
 
     "Refs":  { "type": "map", "values": { "type": "array", "items": { "type": "string" } } },
