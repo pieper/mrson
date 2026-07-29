@@ -21,6 +21,21 @@
       "required": ["hash"]
     },
 
+    "ZarrDesc": {
+      "type": "object",
+      "comment": "Chunked array descriptor for a volume blob (render/zarr.ts). Chunks live at <blobBase>/<dir>/<dataset>/<k>.<j>.<i>.",
+      "properties": {
+        "dir": { "type": "string" },
+        "dataset": { "type": "string" },
+        "shape": { "type": "array", "items": { "type": "int32" } },
+        "chunks": { "type": "array", "items": { "type": "int32" } },
+        "chunkGrid": { "type": "array", "items": { "type": "int32" } },
+        "dtype": { "type": "string" },
+        "bytes": { "type": "string" }
+      },
+      "required": ["dir", "dataset", "shape", "chunks", "chunkGrid", "dtype"]
+    },
+
     "Refs":  { "type": "map", "values": { "type": "array", "items": { "type": "string" } } },
     "Attrs": { "type": "map", "values": { "type": "string" } },
     "Blobs": { "type": "map", "values": { "type": { "$ref": "#/definitions/BlobRef" } } },
@@ -76,7 +91,9 @@
       "type": "object",
       "$extends": "#/definitions/Node",
       "properties": {
-        "visible": { "type": "boolean" }
+        "visible": { "type": "boolean" },
+        "color": { "type": { "$ref": "#/definitions/RGBA" } },
+        "opacity": { "type": "double" }
       }
     },
 
@@ -87,8 +104,10 @@
         "dims": { "type": "array", "items": { "type": "int32" } },
         "ijkToRAS": { "type": { "$ref": "#/definitions/Matrix16" } },
         "voxelType": { "type": "string" },
+        "comps": { "type": "int32" },
         "window": { "type": "double" },
-        "level": { "type": "double" }
+        "level": { "type": "double" },
+        "zarr": { "type": { "$ref": "#/definitions/ZarrDesc" } }
       },
       "required": ["dims", "ijkToRAS"]
     },
@@ -172,8 +191,11 @@
       "$extends": "#/definitions/Node",
       "properties": {
         "kind": { "type": "string", "enum": ["3d", "slice"] },
+        "layoutName": { "type": "string" },
         "orientation": { "type": "string" },
         "sliceToRAS": { "type": { "$ref": "#/definitions/Matrix16" } },
+        "xyToRAS": { "type": { "$ref": "#/definitions/Matrix16" } },
+        "dimensions": { "type": "array", "items": { "type": "int32" } },
         "fieldOfView": { "type": { "$ref": "#/definitions/Vec3" } }
       },
       "required": ["kind"]
@@ -188,12 +210,23 @@
       "required": ["value", "rgba"]
     },
 
+    "OpacityStop": {
+      "type": "object",
+      "properties": {
+        "value": { "type": "double" },
+        "opacity": { "type": "double" }
+      },
+      "required": ["value", "opacity"]
+    },
+
     "TransferFunctionNode": {
       "type": "object",
       "$extends": "#/definitions/Node",
       "properties": {
         "colorStops": { "type": "array", "items": { "type": { "$ref": "#/definitions/ColorStop" } } },
-        "scalarOpacity": { "type": "array", "items": { "type": { "$ref": "#/definitions/ColorStop" } } }
+        "scalarOpacity": { "type": "array", "items": { "type": { "$ref": "#/definitions/OpacityStop" } } },
+        "gradientOpacity": { "type": "array", "items": { "type": { "$ref": "#/definitions/OpacityStop" } } },
+        "shade": { "type": "boolean" }
       }
     },
 
@@ -217,7 +250,7 @@
       "type": "object",
       "properties": {
         "mrson": { "type": "int32" },
-        "blobBase": { "type": "uri" },
+        "blobBase": { "type": "string" },
         "nodes": { "type": "map", "values": { "type": { "$ref": "#/definitions/AnyNode" } } }
       },
       "required": ["mrson", "nodes"]

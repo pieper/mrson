@@ -16,6 +16,16 @@ export interface BlobRef {
   codec?: string;
 }
 
+export interface ZarrDesc {
+  dir: string;
+  dataset: string;
+  shape: number[];
+  chunks: number[];
+  chunkGrid: number[];
+  dtype: string;
+  bytes?: string;
+}
+
 export type Refs = Record<string, string[]>;
 
 export type Attrs = Record<string, string>;
@@ -55,14 +65,18 @@ export interface Node {
 
 export interface DisplayableNode extends Node {
   visible?: boolean;
+  color?: RGBA;
+  opacity?: number;
 }
 
 export interface ImageNode extends DisplayableNode {
   dims: number[];
   ijkToRAS: Matrix16;
   voxelType?: string;
+  comps?: number;
   window?: number;
   level?: number;
+  zarr?: ZarrDesc;
 }
 
 export interface MeshNode extends DisplayableNode {
@@ -109,8 +123,11 @@ export interface CameraNode extends Node {
 
 export interface ViewNode extends Node {
   kind: "3d" | "slice";
+  layoutName?: string;
   orientation?: string;
   sliceToRAS?: Matrix16;
+  xyToRAS?: Matrix16;
+  dimensions?: number[];
   fieldOfView?: Vec3;
 }
 
@@ -119,9 +136,16 @@ export interface ColorStop {
   rgba: RGBA;
 }
 
+export interface OpacityStop {
+  value: number;
+  opacity: number;
+}
+
 export interface TransferFunctionNode extends Node {
   colorStops?: ColorStop[];
-  scalarOpacity?: ColorStop[];
+  scalarOpacity?: OpacityStop[];
+  gradientOpacity?: OpacityStop[];
+  shade?: boolean;
 }
 
 export type AnyNode =

@@ -1,0 +1,512 @@
+{
+ "mrson": 0,
+ "blobBase": "blobs/",
+ "nodes": {
+  "vtkMRMLScalarVolumeNode1": {
+   "type": "image",
+   "id": "vtkMRMLScalarVolumeNode1",
+   "name": "MRHead",
+   "frame": "RAS",
+   "dims": [
+    256,
+    256,
+    130
+   ],
+   "comps": 1,
+   "ijkToRAS": [
+    0.0,
+    0.0,
+    1.2999954223632812,
+    -86.64489746093749,
+    -1.0,
+    0.0,
+    0.0,
+    133.92860412597656,
+    0.0,
+    -1.0,
+    0.0,
+    116.78569793701172,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "zarr": {
+    "dir": "vtkMRMLScalarVolumeNode1.zarr",
+    "dataset": "0",
+    "shape": [
+     130,
+     256,
+     256
+    ],
+    "chunks": [
+     64,
+     128,
+     128
+    ],
+    "chunkGrid": [
+     3,
+     2,
+     2
+    ],
+    "dtype": "<i2",
+    "bytes": "6492653"
+   },
+   "source": {
+    "mrmlClass": "vtkMRMLScalarVolumeNode"
+   },
+   "refs": {
+    "transferFunction": [
+     "vtkMRMLVolumePropertyNode1"
+    ]
+   },
+   "attrs": {},
+   "blobs": {},
+   "color": [
+    0.9,
+    0.9,
+    0.3,
+    1.0
+   ],
+   "window": 151.0,
+   "level": 75.5,
+   "visible": true
+  },
+  "vtkMRMLVolumePropertyNode1": {
+   "type": "transferFunction",
+   "id": "vtkMRMLVolumePropertyNode1",
+   "name": "CT-Cardiac3",
+   "frame": "RAS",
+   "colorStops": [
+    {
+     "value": -3024.0,
+     "rgba": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    },
+    {
+     "value": -86.9767,
+     "rgba": [
+      0.0,
+      0.25098,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "value": 45.3791,
+     "rgba": [
+      1.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    },
+    {
+     "value": 139.919,
+     "rgba": [
+      1.0,
+      0.894893,
+      0.894893,
+      1.0
+     ]
+    },
+    {
+     "value": 347.907,
+     "rgba": [
+      1.0,
+      1.0,
+      0.25098,
+      1.0
+     ]
+    },
+    {
+     "value": 1224.16,
+     "rgba": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "value": 3071.0,
+     "rgba": [
+      0.827451,
+      0.658824,
+      1.0,
+      1.0
+     ]
+    }
+   ],
+   "scalarOpacity": [
+    {
+     "value": -3024.0,
+     "opacity": 0.0
+    },
+    {
+     "value": -86.9767,
+     "opacity": 0.0
+    },
+    {
+     "value": 45.3791,
+     "opacity": 0.169643
+    },
+    {
+     "value": 139.919,
+     "opacity": 0.589286
+    },
+    {
+     "value": 347.907,
+     "opacity": 0.607143
+    },
+    {
+     "value": 1224.16,
+     "opacity": 0.607143
+    },
+    {
+     "value": 3071.0,
+     "opacity": 0.616071
+    }
+   ],
+   "gradientOpacity": [
+    {
+     "value": 0.0,
+     "opacity": 1.0
+    },
+    {
+     "value": 255.0,
+     "opacity": 1.0
+    }
+   ],
+   "shade": true,
+   "source": {
+    "mrmlClass": "vtkMRMLVolumePropertyNode"
+   }
+  },
+  "vtkMRMLScalarVolumeNode2": {
+   "type": "image",
+   "id": "vtkMRMLScalarVolumeNode2",
+   "name": "CTACardio",
+   "frame": "RAS",
+   "dims": [
+    512,
+    512,
+    321
+   ],
+   "comps": 1,
+   "ijkToRAS": [
+    -0.9335939999999999,
+    0.0,
+    0.0,
+    238.53326699999997,
+    0.0,
+    -0.9335939999999999,
+    0.0,
+    238.533267,
+    0.0,
+    0.0,
+    1.25,
+    -200.00000000000006,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "zarr": {
+    "dir": "vtkMRMLScalarVolumeNode2.zarr",
+    "dataset": "0",
+    "shape": [
+     321,
+     512,
+     512
+    ],
+    "chunks": [
+     64,
+     128,
+     128
+    ],
+    "chunkGrid": [
+     6,
+     4,
+     4
+    ],
+    "dtype": "<i2",
+    "bytes": "62296069"
+   },
+   "source": {
+    "mrmlClass": "vtkMRMLScalarVolumeNode"
+   },
+   "refs": {},
+   "attrs": {},
+   "blobs": {},
+   "color": [
+    0.9,
+    0.9,
+    0.3,
+    1.0
+   ],
+   "window": 2371.0,
+   "level": 161.5
+  },
+  "vtkMRMLMarkupsFiducialNode1": {
+   "type": "markup",
+   "id": "vtkMRMLMarkupsFiducialNode1",
+   "name": "LiveStoryPoints",
+   "frame": "RAS",
+   "markupType": "fiducial",
+   "color": [
+    1.0,
+    0.5000076295109483,
+    0.5000076295109483,
+    1.0
+   ],
+   "controlPoints": [
+    {
+     "label": "nasion-ish",
+     "position": [
+      -2.0,
+      6.0,
+      -11.0
+     ],
+     "selected": true
+    },
+    {
+     "label": "anterior",
+     "position": [
+      -2.0,
+      55.0,
+      -15.0
+     ],
+     "selected": true
+    },
+    {
+     "label": "right",
+     "position": [
+      45.0,
+      6.0,
+      -15.0
+     ],
+     "selected": true
+    }
+   ],
+   "source": {
+    "mrmlClass": "vtkMRMLMarkupsFiducialNode"
+   }
+  },
+  "vtkMRMLCameraNode1": {
+   "type": "camera",
+   "id": "vtkMRMLCameraNode1",
+   "name": "Camera",
+   "position": [
+    0.14095447565711083,
+    2.33266994066841,
+    1766.4196152249067
+   ],
+   "focalPoint": [
+    0.14095447565711083,
+    2.33266994066841,
+    -19.887640437378735
+   ],
+   "viewUp": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "viewAngle": 30.0,
+   "parallelScale": 1.0,
+   "source": {
+    "mrmlClass": "vtkMRMLCameraNode"
+   }
+  },
+  "vtkMRMLSliceNodeRed": {
+   "type": "view",
+   "id": "vtkMRMLSliceNodeRed",
+   "name": "Red",
+   "kind": "slice",
+   "layoutName": "Red",
+   "orientation": "Axial",
+   "sliceToRAS": [
+    -1.0,
+    0.0,
+    0.0,
+    -1.4210854715202004e-14,
+    0.0,
+    1.0,
+    0.0,
+    1.4210854715202004e-14,
+    0.0,
+    0.0,
+    1.0,
+    -5.684341886080802e-14,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "xyToRAS": [
+    -2.4895840000000002,
+    0.0,
+    0.0,
+    814.093968,
+    0.0,
+    2.4895840000000002,
+    0.0,
+    -239.000064,
+    0.0,
+    0.0,
+    1.25,
+    -5.684341886080802e-14,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "dimensions": [
+    654,
+    192,
+    1
+   ],
+   "fieldOfView": [
+    1628.187936,
+    478.000128,
+    1.25
+   ],
+   "source": {
+    "mrmlClass": "vtkMRMLSliceNode"
+   }
+  },
+  "vtkMRMLSliceNodeGreen": {
+   "type": "view",
+   "id": "vtkMRMLSliceNodeGreen",
+   "name": "Green",
+   "kind": "slice",
+   "layoutName": "Green",
+   "orientation": "Coronal",
+   "sliceToRAS": [
+    -1.0,
+    0.0,
+    0.0,
+    -1.4210854715202004e-14,
+    0.0,
+    0.0,
+    1.0,
+    0.4667970000000139,
+    0.0,
+    1.0,
+    0.0,
+    -5.684341886080802e-14,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "xyToRAS": [
+    -2.08984375,
+    0.0,
+    0.0,
+    685.46875,
+    0.0,
+    0.0,
+    0.9335939999999999,
+    0.4667970000000139,
+    0.0,
+    2.08984375,
+    0.0,
+    -200.62500000000006,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "dimensions": [
+    656,
+    192,
+    1
+   ],
+   "fieldOfView": [
+    1370.9375,
+    401.25,
+    0.9335939999999999
+   ],
+   "source": {
+    "mrmlClass": "vtkMRMLSliceNode"
+   }
+  },
+  "vtkMRMLSliceNodeYellow": {
+   "type": "view",
+   "id": "vtkMRMLSliceNodeYellow",
+   "name": "Yellow",
+   "kind": "slice",
+   "layoutName": "Yellow",
+   "orientation": "Sagittal",
+   "sliceToRAS": [
+    0.0,
+    0.0,
+    -1.0,
+    -0.4667970000000139,
+    -1.0,
+    0.0,
+    0.0,
+    1.4210854715202004e-14,
+    0.0,
+    1.0,
+    0.0,
+    -5.684341886080802e-14,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "xyToRAS": [
+    0.0,
+    0.0,
+    -0.9335939999999999,
+    -0.4667970000000139,
+    -2.08984375,
+    0.0,
+    0.0,
+    681.2890625,
+    0.0,
+    2.08984375,
+    0.0,
+    -200.62500000000006,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "dimensions": [
+    652,
+    192,
+    1
+   ],
+   "fieldOfView": [
+    1362.578125,
+    401.25,
+    0.9335939999999999
+   ],
+   "source": {
+    "mrmlClass": "vtkMRMLSliceNode"
+   }
+  },
+  "vtkMRMLViewNode1": {
+   "type": "view",
+   "id": "vtkMRMLViewNode1",
+   "name": "View1",
+   "kind": "3d",
+   "layoutName": "1",
+   "refs": {
+    "camera": [
+     "vtkMRMLCameraNode1"
+    ]
+   },
+   "source": {
+    "mrmlClass": "vtkMRMLViewNode"
+   }
+  }
+ }
+}
