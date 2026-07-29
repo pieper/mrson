@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://mrson.org/schema/core/v0",
+  "$root": "#/definitions/Scene",
+  "definitions": {
+
+    "Vec3": { "type": "array", "items": { "type": "double" } },
+    "RGBA": { "type": "array", "items": { "type": "double" } },
+    "Matrix16": { "type": "array", "items": { "type": "double" } },
+
+    "BlobRef": {
+      "type": "object",
+      "properties": {
+        "hash": { "type": "string" },
+        "dtype": { "type": "string" },
+        "count": { "type": "int32" },
+        "comps": { "type": "int32" },
+        "size": { "type": "string" },
+        "codec": { "type": "string" }
+      },
+      "required": ["hash"]
+    },
+
+    "Refs":  { "type": "map", "values": { "type": "array", "items": { "type": "string" } } },
+    "Attrs": { "type": "map", "values": { "type": "string" } },
+    "Blobs": { "type": "map", "values": { "type": { "$ref": "#/definitions/BlobRef" } } },
+
+    "Code": {
+      "type": "object",
+      "properties": {
+        "scheme": { "type": "string" },
+        "value": { "type": "string" },
+        "meaning": { "type": "string" }
+      },
+      "required": ["scheme", "value"]
+    },
+
+    "Source": {
+      "type": "object",
+      "properties": {
+        "mrmlClass": { "type": "string" },
+        "producer": { "type": "string" },
+        "producedAt": { "type": "datetime" },
+        "derivedFrom": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "DicomBag": {
+      "type": "object",
+      "properties": {
+        "sopClassUID": { "type": "string" },
+        "seriesInstanceUID": { "type": "string" },
+        "frameOfReferenceUID": { "type": "string" },
+        "tags": { "type": "map", "values": { "type": "string" } }
+      }
+    },
+
+    "Node": {
+      "abstract": true,
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "frame": { "type": "string" },
+        "refs": { "type": { "$ref": "#/definitions/Refs" } },
+        "attrs": { "type": { "$ref": "#/definitions/Attrs" } },
+        "blobs": { "type": { "$ref": "#/definitions/Blobs" } },
+        "dicom": { "type": { "$ref": "#/definitions/DicomBag" } },
+        "source": { "type": { "$ref": "#/definitions/Source" } }
+      },
+      "required": ["id"]
+    },
+
+    "DisplayableNode": {
+      "abstract": true,
+      "type": "object",
+      "$extends": "#/definitions/Node",
+      "properties": {
+        "visible": { "type": "boolean" }
+      }
+    },
+
+    "ImageNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayableNode",
+      "properties": {
+        "dims": { "type": "array", "items": { "type": "int32" } },
+        "ijkToRAS": { "type": { "$ref": "#/definitions/Matrix16" } },
+        "voxelType": { "type": "string" },
+        "window": { "type": "double" },
+        "level": { "type": "double" }
+      },
+      "required": ["dims", "ijkToRAS"]
+    },
+
+    "MeshNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayableNode",
+      "properties": {
+        "color": { "type": { "$ref": "#/definitions/RGBA" } },
+        "opacity": { "type": "double" }
+      }
+    },
+
+    "Segment": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "color": { "type": { "$ref": "#/definitions/RGBA" } },
+        "labelValue": { "type": "int32" },
+        "terminology": { "type": { "$ref": "#/definitions/Code" } }
+      },
+      "required": ["id"]
+    },
+
+    "SegmentationNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayableNode",
+      "properties": {
+        "segments": { "type": "array", "items": { "type": { "$ref": "#/definitions/Segment" } } },
+        "referenceImage": { "type": "string" }
+      },
+      "required": ["segments"]
+    },
+
+    "ControlPoint": {
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "position": { "type": { "$ref": "#/definitions/Vec3" } },
+        "selected": { "type": "boolean" }
+      },
+      "required": ["position"]
+    },
+
+    "MarkupNode": {
+      "type": "object",
+      "$extends": "#/definitions/DisplayableNode",
+      "properties": {
+        "markupType": { "type": "string", "enum": ["fiducial", "line", "angle", "curve", "closedcurve", "plane", "roi"] },
+        "controlPoints": { "type": "array", "items": { "type": { "$ref": "#/definitions/ControlPoint" } } }
+      },
+      "required": ["markupType"]
+    },
+
+    "TransformNode": {
+      "type": "object",
+      "$extends": "#/definitions/Node",
+      "properties": {
+        "transformType": { "type": "string", "enum": ["linear", "bspline", "grid", "thinplate", "composite"] },
+        "toParent": { "type": { "$ref": "#/definitions/Matrix16" } }
+      },
+      "required": ["transformType"]
+    },
+
+    "CameraNode": {
+      "type": "object",
+      "$extends": "#/definitions/Node",
+      "properties": {
+        "position": { "type": { "$ref": "#/definitions/Vec3" } },
+        "focalPoint": { "type": { "$ref": "#/definitions/Vec3" } },
+        "viewUp": { "type": { "$ref": "#/definitions/Vec3" } },
+        "viewAngle": { "type": "double" },
+        "parallelScale": { "type": "double" }
+      },
+      "required": ["position", "focalPoint", "viewUp"]
+    },
+
+    "ViewNode": {
+      "type": "object",
+      "$extends": "#/definitions/Node",
+      "properties": {
+        "kind": { "type": "string", "enum": ["3d", "slice"] },
+        "orientation": { "type": "string" },
+        "sliceToRAS": { "type": { "$ref": "#/definitions/Matrix16" } },
+        "fieldOfView": { "type": { "$ref": "#/definitions/Vec3" } }
+      },
+      "required": ["kind"]
+    },
+
+    "ColorStop": {
+      "type": "object",
+      "properties": {
+        "value": { "type": "double" },
+        "rgba": { "type": { "$ref": "#/definitions/RGBA" } }
+      },
+      "required": ["value", "rgba"]
+    },
+
+    "TransferFunctionNode": {
+      "type": "object",
+      "$extends": "#/definitions/Node",
+      "properties": {
+        "colorStops": { "type": "array", "items": { "type": { "$ref": "#/definitions/ColorStop" } } },
+        "scalarOpacity": { "type": "array", "items": { "type": { "$ref": "#/definitions/ColorStop" } } }
+      }
+    },
+
+    "AnyNode": {
+      "type": "choice",
+      "$extends": "#/definitions/Node",
+      "selector": "type",
+      "choices": {
+        "image":            { "type": { "$ref": "#/definitions/ImageNode" } },
+        "mesh":             { "type": { "$ref": "#/definitions/MeshNode" } },
+        "segmentation":     { "type": { "$ref": "#/definitions/SegmentationNode" } },
+        "markup":           { "type": { "$ref": "#/definitions/MarkupNode" } },
+        "transform":        { "type": { "$ref": "#/definitions/TransformNode" } },
+        "camera":           { "type": { "$ref": "#/definitions/CameraNode" } },
+        "view":             { "type": { "$ref": "#/definitions/ViewNode" } },
+        "transferFunction": { "type": { "$ref": "#/definitions/TransferFunctionNode" } }
+      }
+    },
+
+    "Scene": {
+      "type": "object",
+      "properties": {
+        "mrson": { "type": "int32" },
+        "blobBase": { "type": "uri" },
+        "nodes": { "type": "map", "values": { "type": { "$ref": "#/definitions/AnyNode" } } }
+      },
+      "required": ["mrson", "nodes"]
+    }
+  }
+}

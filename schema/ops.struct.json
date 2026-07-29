@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://mrson.org/schema/ops/v0",
+  "$root": "#/definitions/AnyOp",
+  "definitions": {
+    "Op": {
+      "abstract": true,
+      "type": "object",
+      "properties": {
+        "id":     { "type": "string" },
+        "v":      { "type": "int32" },
+        "origin": { "type": "string" },
+        "role":   { "type": "string", "enum": ["human", "agent", "module", "automated"] }
+      },
+      "required": ["id"]
+    },
+
+    "PutOp": {
+      "type": "object",
+      "$extends": "#/definitions/Op",
+      "comment": "Replace the whole node. In a composed build (Import) `node` tightens to core.AnyNode.",
+      "properties": {
+        "node": { "type": "any" }
+      },
+      "required": ["node"]
+    },
+
+    "PatchOp": {
+      "type": "object",
+      "$extends": "#/definitions/Op",
+      "properties": {
+        "path":  { "type": "jsonpointer" },
+        "value": { "type": "any" }
+      },
+      "required": ["path", "value"]
+    },
+
+    "DelOp": {
+      "type": "object",
+      "$extends": "#/definitions/Op",
+      "properties": {}
+    },
+
+    "CmdOp": {
+      "type": "object",
+      "$extends": "#/definitions/Op",
+      "properties": {
+        "cmd":  { "type": "string" },
+        "args": { "type": "any" }
+      },
+      "required": ["cmd"]
+    },
+
+    "AnyOp": {
+      "type": "choice",
+      "$extends": "#/definitions/Op",
+      "selector": "op",
+      "choices": {
+        "put":   { "type": { "$ref": "#/definitions/PutOp" } },
+        "patch": { "type": { "$ref": "#/definitions/PatchOp" } },
+        "del":   { "type": { "$ref": "#/definitions/DelOp" } },
+        "cmd":   { "type": { "$ref": "#/definitions/CmdOp" } }
+      }
+    }
+  }
+}

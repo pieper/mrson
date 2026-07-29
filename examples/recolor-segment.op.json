@@ -1,0 +1,1 @@
+{"op": "patch", "id": "seg", "v": 7, "origin": "slicer", "role": "human", "path": "#/segments/0/color", "value": [1, 0, 0, 1]}

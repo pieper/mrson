@@ -1,0 +1,73 @@
+{
+  "mrson": 0,
+  "blobBase": "https://blobs.example.org/heart/",
+  "nodes": {
+    "ct": {
+      "type": "image",
+      "id": "ct",
+      "name": "CTA Cardiac",
+      "frame": "RAS",
+      "visible": true,
+      "dims": [512, 512, 300],
+      "ijkToRAS": [0.4,0,0,-102.4, 0,0.4,0,-102.4, 0,0,0.5,-75, 0,0,0,1],
+      "voxelType": "int16",
+      "window": 1400,
+      "level": 300,
+      "blobs": { "voxels": { "hash": "sha256-ctvoxels", "dtype": "int16", "count": 78643200, "codec": "zarr+gzip" } },
+      "dicom": { "sopClassUID": "1.2.840.10008.5.1.4.1.1.2", "frameOfReferenceUID": "1.2.3.4.5" },
+      "source": { "mrmlClass": "vtkMRMLScalarVolumeNode" }
+    },
+    "seg": {
+      "type": "segmentation",
+      "id": "seg",
+      "name": "Cardiac Structures",
+      "frame": "RAS",
+      "visible": true,
+      "referenceImage": "ct",
+      "refs": { "referenceImage": ["ct"] },
+      "segments": [
+        { "id": "lv", "name": "Left Ventricle", "labelValue": 1, "color": [0.9,0.2,0.2,1],
+          "terminology": { "scheme": "SCT", "value": "87878005", "meaning": "Left ventricle" } },
+        { "id": "myo", "name": "Myocardium", "labelValue": 2, "color": [0.8,0.4,0.3,1] }
+      ],
+      "blobs": { "labelmap": { "hash": "sha256-seglabels", "dtype": "uint8", "codec": "zarr+gzip" } },
+      "source": { "mrmlClass": "vtkMRMLSegmentationNode" }
+    },
+    "apex": {
+      "type": "markup",
+      "id": "apex",
+      "name": "Apex",
+      "frame": "RAS",
+      "markupType": "fiducial",
+      "controlPoints": [ { "label": "apex", "position": [12.5, -34.0, 8.2], "selected": true } ],
+      "source": { "mrmlClass": "vtkMRMLMarkupsFiducialNode" }
+    },
+    "cam": {
+      "type": "camera",
+      "id": "cam",
+      "position": [0, -400, 0],
+      "focalPoint": [0, 0, 0],
+      "viewUp": [0, 0, 1],
+      "viewAngle": 30
+    },
+    "view3d": {
+      "type": "view",
+      "id": "view3d",
+      "kind": "3d",
+      "refs": { "camera": ["cam"] }
+    },
+    "tf": {
+      "type": "transferFunction",
+      "id": "tf",
+      "colorStops": [
+        { "value": 0,    "rgba": [0,0,0,0] },
+        { "value": 300,  "rgba": [0.8,0.2,0.1,0.2] },
+        { "value": 1400, "rgba": [1,1,0.9,0.9] }
+      ],
+      "scalarOpacity": [
+        { "value": 0,    "rgba": [0,0,0,0] },
+        { "value": 1400, "rgba": [0,0,0,0.9] }
+      ]
+    }
+  }
+}

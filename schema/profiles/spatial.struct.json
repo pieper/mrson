@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://mrson.org/schema/profiles/spatial/v0",
+  "$root": "#/definitions/SpatialDoc",
+  "comment": "Spatial profile — coordinate frames + transform detail beyond the core. Self-contained for v0; a composed build would Import core and tighten refs. Frame conventions map to DICOM-LPS and ROS REP-103 (documented, not enforced here).",
+  "definitions": {
+    "Matrix16": { "type": "array", "items": { "type": "double" } },
+
+    "Axis": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "kind": { "type": "string", "enum": ["space", "time", "channel", "displacement"] },
+        "unit": { "type": "string" }
+      },
+      "required": ["name", "kind"]
+    },
+
+    "CoordinateSystem": {
+      "type": "object",
+      "comment": "A named frame of reference. world default = RAS. `parent`+`toParent` build the frame tree (tf2-style single-parent).",
+      "properties": {
+        "name": { "type": "string" },
+        "axes": { "type": "array", "items": { "type": { "$ref": "#/definitions/Axis" } } },
+        "parent": { "type": "string" },
+        "toParent": { "type": { "$ref": "#/definitions/Matrix16" } },
+        "handedness": { "type": "string", "enum": ["right", "left"] }
+      },
+      "required": ["name"]
+    },
+
+    "LinearTransform": {
+      "type": "object",
+      "$extends": "#/definitions/Transform",
+      "properties": { "matrix": { "type": { "$ref": "#/definitions/Matrix16" } } },
+      "required": ["matrix"]
+    },
+    "GridTransform": {
+      "type": "object",
+      "$extends": "#/definitions/Transform",
+      "comment": "Deformation field lives in a content-addressed blob, never inline.",
+      "properties": {
+        "displacementBlob": { "type": "string" },
+        "gridSize": { "type": "array", "items": { "type": "int32" } }
+      },
+      "required": ["displacementBlob"]
+    },
+    "BSplineTransform": {
+      "type": "object",
+      "$extends": "#/definitions/Transform",
+      "properties": {
+        "coefficientBlob": { "type": "string" },
+        "order": { "type": "int32" }
+      },
+      "required": ["coefficientBlob"]
+    },
+    "Transform": {
+      "abstract": true,
+      "type": "object",
+      "properties": {
+        "from": { "type": "string" },
+        "to": { "type": "string" }
+      },
+      "required": ["from", "to"]
+    },
+    "AnyTransform": {
+      "type": "choice",
+      "$extends": "#/definitions/Transform",
+      "selector": "kind",
+      "choices": {
+        "linear":  { "type": { "$ref": "#/definitions/LinearTransform" } },
+        "grid":    { "type": { "$ref": "#/definitions/GridTransform" } },
+        "bspline": { "type": { "$ref": "#/definitions/BSplineTransform" } }
+      }
+    },
+
+    "SpatialDoc": {
+      "type": "object",
+      "properties": {
+        "frames": { "type": "map", "values": { "type": { "$ref": "#/definitions/CoordinateSystem" } } },
+        "transforms": { "type": "array", "items": { "type": { "$ref": "#/definitions/AnyTransform" } } }
+      }
+    }
+  }
+}

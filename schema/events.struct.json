@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://mrson.org/schema/events/v0",
+  "$root": "#/definitions/AnyEvent",
+  "definitions": {
+    "Vec3": { "type": "array", "items": { "type": "double" } },
+
+    "LiveEvent": {
+      "abstract": true,
+      "type": "object",
+      "properties": {
+        "sourceId": { "type": "string" },
+        "t": { "type": "int32" }
+      },
+      "required": ["sourceId"]
+    },
+
+    "ModifiedEvent":          { "type": "object", "$extends": "#/definitions/LiveEvent", "properties": {} },
+    "TransformModifiedEvent": { "type": "object", "$extends": "#/definitions/LiveEvent", "properties": {} },
+    "DisplayModifiedEvent":   { "type": "object", "$extends": "#/definitions/LiveEvent", "properties": {} },
+
+    "CameraModifiedEvent": {
+      "type": "object",
+      "$extends": "#/definitions/LiveEvent",
+      "properties": {
+        "position":   { "type": { "$ref": "#/definitions/Vec3" } },
+        "focalPoint": { "type": { "$ref": "#/definitions/Vec3" } },
+        "viewUp":     { "type": { "$ref": "#/definitions/Vec3" } },
+        "viewAngle":  { "type": "double" }
+      },
+      "required": ["position", "focalPoint", "viewUp"]
+    },
+
+    "MarkupPointModifiedEvent": {
+      "type": "object",
+      "$extends": "#/definitions/LiveEvent",
+      "properties": {
+        "pointIndex": { "type": "int32" },
+        "position":   { "type": { "$ref": "#/definitions/Vec3" } }
+      },
+      "required": ["pointIndex", "position"]
+    },
+
+    "SelectionEvent": {
+      "type": "object",
+      "$extends": "#/definitions/LiveEvent",
+      "properties": {
+        "selectedIds": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["selectedIds"]
+    },
+
+    "NodeAddedEvent": {
+      "type": "object",
+      "$extends": "#/definitions/LiveEvent",
+      "properties": {
+        "nodeId":    { "type": "string" },
+        "nodeClass": { "type": "string" }
+      },
+      "required": ["nodeId", "nodeClass"]
+    },
+
+    "NodeRemovedEvent": {
+      "type": "object",
+      "$extends": "#/definitions/LiveEvent",
+      "properties": {
+        "nodeId": { "type": "string" }
+      },
+      "required": ["nodeId"]
+    },
+
+    "AnyEvent": {
+      "type": "choice",
+      "$extends": "#/definitions/LiveEvent",
+      "selector": "event",
+      "choices": {
+        "Modified":          { "type": { "$ref": "#/definitions/ModifiedEvent" } },
+        "TransformModified": { "type": { "$ref": "#/definitions/TransformModifiedEvent" } },
+        "DisplayModified":   { "type": { "$ref": "#/definitions/DisplayModifiedEvent" } },
+        "CameraModified":    { "type": { "$ref": "#/definitions/CameraModifiedEvent" } },
+        "MarkupPointModified": { "type": { "$ref": "#/definitions/MarkupPointModifiedEvent" } },
+        "Selection":         { "type": { "$ref": "#/definitions/SelectionEvent" } },
+        "NodeAdded":         { "type": { "$ref": "#/definitions/NodeAddedEvent" } },
+        "NodeRemoved":       { "type": { "$ref": "#/definitions/NodeRemovedEvent" } }
+      }
+    }
+  }
+}

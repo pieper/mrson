@@ -1,0 +1,14 @@
+{
+  "frames": {
+    "RAS": { "name": "RAS", "handedness": "right",
+      "axes": [ { "name": "R", "kind": "space", "unit": "mm" },
+                { "name": "A", "kind": "space", "unit": "mm" },
+                { "name": "S", "kind": "space", "unit": "mm" } ] },
+    "tracker": { "name": "tracker", "parent": "RAS",
+      "toParent": [1,0,0,10, 0,1,0,-5, 0,0,1,0, 0,0,0,1] }
+  },
+  "transforms": [
+    { "kind": "linear", "from": "ct", "to": "RAS", "matrix": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] },
+    { "kind": "grid", "from": "moving", "to": "RAS", "displacementBlob": "sha256-warpfield", "gridSize": [64,64,48] }
+  ]
+}
