@@ -102,6 +102,8 @@ export interface ControlPoint {
 export interface MarkupNode extends DisplayableNode {
   markupType: "fiducial" | "line" | "angle" | "curve" | "closedcurve" | "plane" | "roi";
   controlPoints?: ControlPoint[];
+  center?: Vec3;
+  size?: Vec3;
 }
 
 export interface TransformNode extends Node {

@@ -150,7 +150,9 @@
       "$extends": "#/definitions/DisplayableNode",
       "properties": {
         "markupType": { "type": "string", "enum": ["fiducial", "line", "angle", "curve", "closedcurve", "plane", "roi"] },
-        "controlPoints": { "type": "array", "items": { "type": { "$ref": "#/definitions/ControlPoint" } } }
+        "controlPoints": { "type": "array", "items": { "type": { "$ref": "#/definitions/ControlPoint" } } },
+        "center": { "type": { "$ref": "#/definitions/Vec3" } },
+        "size": { "type": { "$ref": "#/definitions/Vec3" } }
       },
       "required": ["markupType"]
     },
