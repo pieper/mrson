@@ -160,6 +160,7 @@ export interface ScalarVolumeDisplayNode extends DisplayNode {
 
 export interface VolumeRenderingDisplayNode extends DisplayNode {
   technique?: string;
+  cropEnabled?: boolean;
 }
 
 export interface ModelDisplayNode extends DisplayNode {

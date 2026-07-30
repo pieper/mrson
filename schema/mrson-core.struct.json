@@ -250,9 +250,10 @@
     "VolumeRenderingDisplayNode": {
       "type": "object",
       "$extends": "#/definitions/DisplayNode",
-      "comment": "Volume-rendering display. refs.transferFunction -> the transferFunction node used in these views.",
+      "comment": "Volume-rendering display. refs.transferFunction -> the transferFunction node; refs.roi -> the crop ROI when cropEnabled.",
       "properties": {
-        "technique": { "type": "string" }
+        "technique": { "type": "string" },
+        "cropEnabled": { "type": "boolean" }
       }
     },
 
