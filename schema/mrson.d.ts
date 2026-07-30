@@ -177,7 +177,13 @@ export interface MarkupDisplayNode extends DisplayNode {
   textScale?: number;
 }
 
+export interface LayoutNode extends Node {
+  arrangement?: number;
+  arrangementName?: string;
+}
+
 export type AnyNode =
+  | ({ type: "layout" } & LayoutNode)
   | ({ type: "image" } & ImageNode)
   | ({ type: "mesh" } & MeshNode)
   | ({ type: "segmentation" } & SegmentationNode)

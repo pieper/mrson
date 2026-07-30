@@ -279,11 +279,22 @@
       }
     },
 
+    "LayoutNode": {
+      "type": "object",
+      "$extends": "#/definitions/Node",
+      "comment": "The application layout: how many views and of what kind. `arrangement` is the Slicer SlicerLayout* enum; `arrangementName` is a stable neutral name.",
+      "properties": {
+        "arrangement": { "type": "int32" },
+        "arrangementName": { "type": "string" }
+      }
+    },
+
     "AnyNode": {
       "type": "choice",
       "$extends": "#/definitions/Node",
       "selector": "type",
       "choices": {
+        "layout":           { "type": { "$ref": "#/definitions/LayoutNode" } },
         "image":            { "type": { "$ref": "#/definitions/ImageNode" } },
         "mesh":             { "type": { "$ref": "#/definitions/MeshNode" } },
         "segmentation":     { "type": { "$ref": "#/definitions/SegmentationNode" } },
