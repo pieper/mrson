@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-structure.org/meta/core/v0/#",
-  "$id": "https://mrson.org/schema/ops/v0",
+  "$id": "https://mrson.org/structure/ops/v0",
   "$root": "#/definitions/AnyOp",
   "definitions": {
     "Op": {

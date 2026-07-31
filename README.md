@@ -29,7 +29,7 @@ for versioning + extension rules. The full design rationale lives in the SlicerL
 ## Layout
 
 ```
-schema/
+structure/
   mrson-core.struct.json     # the neutral node hierarchy + scene envelope
   events.struct.json         # typed event classes (a discriminated union, DOM-Event-style)
   ops.struct.json            # typed operations: put / patch / del / cmd
@@ -68,7 +68,7 @@ unknown event type is rejected and each event carries a validated (possibly empt
 
 ```sh
 tools/validate.sh          # sets up a venv, validates every schema + example instance
-node tools/struct2ts.mjs schema/mrson-core.struct.json schema/events.struct.json schema/ops.struct.json > schema/mrson.d.ts
+node tools/struct2ts.mjs structure/mrson-core.struct.json structure/events.struct.json structure/ops.struct.json > structure/mrson.d.ts
 ```
 
 ## Behavior does not live here

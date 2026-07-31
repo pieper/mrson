@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-structure.org/meta/core/v0/#",
-  "$id": "https://mrson.org/schema/events/v0",
+  "$id": "https://mrson.org/structure/events/v0",
   "$root": "#/definitions/AnyEvent",
   "definitions": {
     "Vec3": { "type": "array", "items": { "type": "double" } },

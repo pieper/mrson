@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-structure.org/meta/core/v0/#",
-  "$id": "https://mrson.org/schema/core/v0",
+  "$id": "https://mrson.org/structure/core/v0",
   "$root": "#/definitions/Scene",
   "definitions": {
 

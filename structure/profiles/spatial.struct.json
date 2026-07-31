@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-structure.org/meta/core/v0/#",
-  "$id": "https://mrson.org/schema/profiles/spatial/v0",
+  "$id": "https://mrson.org/structure/profiles/spatial/v0",
   "$root": "#/definitions/SpatialDoc",
   "comment": "Spatial profile — coordinate frames + transform detail beyond the core. Self-contained for v0; a composed build would Import core and tighten refs. Frame conventions map to DICOM-LPS and ROS REP-103 (documented, not enforced here).",
   "definitions": {
