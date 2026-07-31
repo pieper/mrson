@@ -23,8 +23,9 @@ archive/interchange boundary (DICOM, via the **MRCOM** binding), graphics/sim in
 - **Edges (bridges, not foundations):** MRCOM → DICOM · MRUSD → OpenUSD · FHIRcast → clinical context.
 
 See [`docs/naming.md`](docs/naming.md) for the family and [`docs/governance.md`](docs/governance.md)
-for versioning + extension rules. The full design rationale lives in the SlicerLive
-`docs/MRSON-STRESS-TEST.md` and `docs/MRSON-LIVESCENE.md`.
+for versioning + extension rules. The full design rationale lives in the SlicerLive repo:
+[MRSON-STRESS-TEST.md](https://github.com/pieper/SlicerLive/blob/main/docs/MRSON-STRESS-TEST.md)
+and [MRSON-LIVESCENE.md](https://github.com/pieper/SlicerLive/blob/main/docs/MRSON-LIVESCENE.md).
 
 ## Layout
 
