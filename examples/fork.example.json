@@ -1,0 +1,24 @@
+{
+  "mrson": 0,
+  "id": "018f2c11-7a4e-7c33-9b21-6d0aa2e4f001",
+  "forkOf": "018f2c11-7a4e-7c33-9b21-000000000000",
+  "base": { "commit": "sha256-9f1c2b0d4e6a8c1357902468acebdf13579bd02468ace13579bdf02468ace135", "offset": 12 },
+  "head": "sha256-b7a0c3e5f2148d6b9e04173a5c8f2b60d94e17385a6c0f2b7d84e19305a2c6f4",
+  "blobBase": "blobs/",
+  "commits": [
+    {
+      "hash": "sha256-b7a0c3e5f2148d6b9e04173a5c8f2b60d94e17385a6c0f2b7d84e19305a2c6f4",
+      "parents": [],
+      "base": { "commit": "sha256-9f1c2b0d4e6a8c1357902468acebdf13579bd02468ace13579bdf02468ace135", "offset": 12 },
+      "t": "2026-08-02T18:30:00Z",
+      "author": "golby-lab:agizaw",
+      "role": "human",
+      "message": "adjusted trajectory + segmented lesion of interest",
+      "ops": [
+        { "op": "cmd", "id": "vtkMRMLMarkupsLineNode1", "v": 1, "origin": "fork:agizaw", "role": "human", "cmd": "setControlPoint", "args": { "index": 1, "position": [12.4, -30.1, 55.8] } },
+        { "op": "put", "id": "segLesion", "v": 2, "origin": "fork:agizaw", "role": "human", "node": { "type": "segmentation", "id": "segLesion", "zarr": { "chunks": ["sha256-c1d2e3f4a5b60718293a4b5c6d7e8f90112233445566778899aabbccddeeff00"] } } }
+      ],
+      "tree": "sha256-3e9a1c7b5d02468ace13579bdf02468ace13579bdf02468ace13579bdf024680"
+    }
+  ]
+}

@@ -34,6 +34,7 @@ structure/
   mrson-core.struct.json     # the neutral node hierarchy + scene envelope
   events.struct.json         # typed event classes (a discriminated union, DOM-Event-style)
   ops.struct.json            # typed operations: put / patch / del / cmd
+  commits.struct.json        # content-addressed history: Commit / Fork / PullRequest (git-style sharing)
   mrson.d.ts                 # GENERATED TypeScript types (do not hand-edit)
   profiles/
     spatial.struct.json      # coordinate frames + transform detail (maps to DICOM-LPS / ROS REP-103)

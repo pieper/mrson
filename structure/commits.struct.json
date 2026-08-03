@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://mrson.org/structure/commits/v0",
+  "$root": "#/definitions/Stream",
+  "comment": "Content-addressed history for mrson streams: git-style commits + forks + pull requests, enabling read-only sharing with fork-and-contribute. Realtime ops are NOT hashed; a ~1Hz sealer bundles them into content-addressed Commits. See docs/MRSON-COMMITS-FORKS.md (SlicerLive repo).",
+  "definitions": {
+
+    "ContentHash": {
+      "type": "string",
+      "comment": "Content id 'sha256-<hex>' over the CANONICAL serialization (RFC 8785 JCS, or canonical CBOR) of the referent. Same content -> same hash across hosts. Shared with the zarr blob channel."
+    },
+
+    "BranchPoint": {
+      "type": "object",
+      "comment": "An unambiguous point in a stream = a sealed commit + N ops past it (deterministic replay). Gives per-op branch granularity without hashing every op.",
+      "properties": {
+        "commit": { "type": { "$ref": "#/definitions/ContentHash" } },
+        "offset": { "type": "int32", "comment": "ops applied AFTER `commit` (0 = at the commit)" }
+      },
+      "required": ["commit", "offset"]
+    },
+
+    "Commit": {
+      "type": "object",
+      "comment": "A ~1Hz content-addressed SEAL over the ops since its parent (a git commit). `hash` is computed over this object with `hash` OMITTED. The delta bundle + parents make the chain capture full ancestry, so state is reproducible by replay without a per-commit snapshot.",
+      "properties": {
+        "hash":    { "type": { "$ref": "#/definitions/ContentHash" }, "comment": "this commit's id (content-addressed; excludes the `hash` field itself)" },
+        "parents": { "type": "array", "items": { "type": { "$ref": "#/definitions/ContentHash" } }, "comment": "parent commit hashes: 0 = root, 1 = normal, 2+ = merge" },
+        "base":    { "type": { "$ref": "#/definitions/BranchPoint" }, "comment": "present on a fork's FIRST commit: the upstream branch point" },
+        "t":       { "type": "datetime", "comment": "commit time (ISO-8601). The realtime op log keeps relative int ms; a sealed commit uses a durable timestamp." },
+        "author":  { "type": "string", "comment": "origin / principal (git-blame + HIPAA audit)" },
+        "role":    { "type": "string", "enum": ["human", "agent", "module", "automated"] },
+        "message": { "type": "string", "comment": "optional; doubles as a LiveStory step/mark label" },
+        "ops":     { "type": "array", "items": { "type": "any" }, "comment": "the sealed delta since the parent (inline for self-containment in v0). AnyOp; tightens to ops.AnyOp in a composed (Import) build, like ops.PutOp.node." },
+        "tree":    { "type": { "$ref": "#/definitions/ContentHash" }, "comment": "optional git-TREE: content hash of the resulting node-map snapshot (a replay keyframe); enables state dedup across forks" }
+      },
+      "required": ["hash", "parents", "t", "ops"]
+    },
+
+    "Ref": {
+      "type": "object",
+      "comment": "A named pointer to a commit — a branch/HEAD or a tag.",
+      "properties": {
+        "name":   { "type": "string" },
+        "commit": { "type": { "$ref": "#/definitions/ContentHash" } }
+      },
+      "required": ["name", "commit"]
+    },
+
+    "Stream": {
+      "type": "object",
+      "comment": "An UPSTREAM (canonical) recorded mrson stream = an ordered commit DAG over an op history + content-addressed blobs. Owner holds write; others get read-only.",
+      "properties": {
+        "mrson":    { "type": "int32" },
+        "id":       { "type": "uuid" },
+        "root":     { "type": { "$ref": "#/definitions/ContentHash" }, "comment": "first commit" },
+        "head":     { "type": { "$ref": "#/definitions/ContentHash" }, "comment": "latest commit" },
+        "blobBase": { "type": "string", "comment": "base URI/path for content-addressed blobs" },
+        "commits":  { "type": "array", "items": { "type": { "$ref": "#/definitions/Commit" } }, "comment": "the sealed commit log (the unsealed realtime tail lives outside content-addressing)" },
+        "refs":     { "type": "array", "items": { "type": { "$ref": "#/definitions/Ref" } } }
+      },
+      "required": ["mrson", "id", "head"]
+    },
+
+    "Fork": {
+      "type": "object",
+      "comment": "A BY-REFERENCE delta stream branched from an upstream Stream (a git fork), living in the forker's OWN writable space. References upstream blobs by hash; stores only NEW blobs. By-reference is the default (esp. PHI): revoking upstream read cascades the fork's view to broken, and no PHI is duplicated.",
+      "properties": {
+        "mrson":    { "type": "int32" },
+        "id":       { "type": "uuid" },
+        "forkOf":   { "type": "string", "comment": "upstream Stream id or URI" },
+        "base":     { "type": { "$ref": "#/definitions/BranchPoint" }, "comment": "the exact upstream branch point" },
+        "head":     { "type": { "$ref": "#/definitions/ContentHash" } },
+        "blobBase": { "type": "string", "comment": "the fork's own blob store — NEW blobs only; upstream blobs referenced by hash" },
+        "commits":  { "type": "array", "items": { "type": { "$ref": "#/definitions/Commit" } }, "comment": "the fork's own commits, from `base`" }
+      },
+      "required": ["mrson", "id", "forkOf", "base", "head"]
+    },
+
+    "PullRequest": {
+      "type": "object",
+      "comment": "A request to merge a Fork's commits (from `base`) into an upstream Stream. The owner replays + accepts/rejects; a merge appends the accepted ops and PROMOTES new blobs, keeping each op's origin (provenance = audit).",
+      "properties": {
+        "id":      { "type": "uuid" },
+        "fork":    { "type": "string", "comment": "Fork id or URI" },
+        "into":    { "type": "string", "comment": "upstream Stream id" },
+        "base":    { "type": { "$ref": "#/definitions/BranchPoint" } },
+        "head":    { "type": { "$ref": "#/definitions/ContentHash" }, "comment": "the fork HEAD being proposed" },
+        "title":   { "type": "string" },
+        "message": { "type": "string" },
+        "state":   { "type": "string", "enum": ["open", "merged", "declined"] }
+      },
+      "required": ["id", "fork", "into", "base", "head", "state"]
+    }
+  }
+}

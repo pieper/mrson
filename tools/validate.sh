@@ -24,6 +24,7 @@ check structure/mrson-core.struct.json        examples/heart.mrson.json
 check structure/mrson-core.struct.json        examples/cardiac-live.mrson.json
 check structure/events.struct.json            examples/camera-modified.event.json
 check structure/ops.struct.json               examples/recolor-segment.op.json
+check structure/commits.struct.json           examples/fork.example.json
 check structure/profiles/spatial.struct.json  examples/frames.spatial.json
 
 if [ "$fail" -eq 0 ]; then echo "all valid ✓"; else echo "some invalid ✗"; exit 1; fi
